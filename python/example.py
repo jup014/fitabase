@@ -4,9 +4,11 @@ from dotenv import load_dotenv
 from pprint import pprint
 
 if __name__ == '__main__':
-    load_dotenv("../credentials/test.env")
+    pkey_name = "SUBSCRIPTION_PRIMARY_KEY"
     
-    key = os.environ.get("SUBSCRIPTION_PRIMARY_KEY")
+    if not pkey_name in os.environ:
+        load_dotenv("../credentials/test.env")
+    key = os.environ.get(pkey_name)
     
     conn = Connection(key=key)
     
