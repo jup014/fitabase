@@ -17,3 +17,6 @@ if __name__ == '__main__':
 
     daily_activity_list = conn.get_daily_activity(start="2021-09-01", end="2021-10-14")
     pprint(daily_activity_list)
+
+    sync_list = conn.get_sync_information()
+    pprint(sync_list)

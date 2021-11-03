@@ -1,5 +1,5 @@
 import requests
-from .models import Profile, ActivityLog, DailyActivity
+from .models import Profile, ActivityLog, DailyActivity, SyncInformation
 
 class HttpClient:
     def __init__(self):
@@ -18,7 +18,8 @@ class Constants:
         'url': {
             'profile': 'https://api.fitabase.com/v1/Profiles/',
             'activity_log': 'https://api.fitabase.com/v1/activitylog/Get/{}/{}/{}',
-            'daily_activity': 'https://api.fitabase.com/v1/DailyActivity/{}/{}/{}'
+            'daily_activity': 'https://api.fitabase.com/v1/DailyActivity/{}/{}/{}',
+            'sync_information': 'https://api.fitabase.com/v1/Sync/Latest/{}'
         }
     }
     
@@ -53,3 +54,13 @@ class Connection:
         activity_log_list = DailyActivity.load_list(response_json)
         
         return activity_log_list
+    
+    def get_sync_information(self, profile:Profile=None):
+        if profile is None:
+            return [{"profile": x, "daily_activity": self.get_sync_information(x)} for x in self.profiles]
+        
+        url = Constants.DICT['url']['sync_information'].format(profile.ProfileId)
+        response_json = self.__client.get(url)
+        sync_information = SyncInformation().parse_obj(response_json)
+        
+        return sync_information

@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Any
 from pydantic import BaseModel, parse_obj_as
 
 class Profile(BaseModel):
@@ -86,5 +86,32 @@ class DailyActivity(BaseModel):
     
     def load_list(list_of_dicts):
         m = parse_obj_as(List[DailyActivity], list_of_dicts)
+        
+        return m
+
+class Device(BaseModel):
+    DeviceName: str
+    BatteryLevel: str
+    LastSync: datetime
+    
+    def load_list(list_of_dicts):
+        m = parse_obj_as(List[Device], list_of_dicts)
+        
+        return m
+    
+class SyncInformation(BaseModel):
+    SyncDate: Optional[datetime]
+    LatestBatteryLevel: Optional[str]
+    LatestDeviceName: Optional[str]
+    SyncDateTracker: Optional[datetime]
+    LatestBatteryLevelTracker: Optional[str]
+    LatestDeviceNameTracker: Optional[str]
+    SyncDateScale: Optional[datetime]
+    LatestBatteryLevelScale: Optional[str]
+    LatestDeviceNameScale: Optional[str]
+    Devices: Optional[List[Device]]
+    
+    def load_list(list_of_dicts):
+        m = parse_obj_as(List[SyncInformation], list_of_dicts)
         
         return m
