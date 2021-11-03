@@ -3,9 +3,9 @@ from typing import List, Optional, Any
 from pydantic import BaseModel, parse_obj_as
 
 class Profile(BaseModel):
-    ProfileId: str
-    CreatedDate: datetime
-    Name: str
+    ProfileId: Optional[str]
+    CreatedDate: Optional[datetime]
+    Name: Optional[str]
     
     def load_list(list_of_profile_dicts):
         m = parse_obj_as(List[Profile], list_of_profile_dicts)
@@ -13,47 +13,47 @@ class Profile(BaseModel):
         return m
 
 class HeartRateZone(BaseModel):
-    CaloriesOut: float
-    Max: int
-    Min: int
-    Minutes: int
-    Name: str
+    CaloriesOut: Optional[float]
+    Max: Optional[int]
+    Min: Optional[int]
+    Minutes: Optional[int]
+    Name: Optional[str]
 
 class ActivityLevel(BaseModel):
-    Minutes: int
-    Name: str
+    Minutes: Optional[int]
+    Name: Optional[str]
     
 class Activity(BaseModel):
-    StartTime: datetime
-    Speed: float
+    StartTime: Optional[datetime]
+    Speed: Optional[float]
     Source: Optional[str]
-    Pace: float
-    OriginalStartTime: datetime
-    OriginalDuration: int
-    CaloriesManuallySpecified: bool
-    DistanceManuallySpecified: bool
-    StepsManuallySpecified: bool
-    LogType: str
-    LogId: int
-    LastModified: datetime
-    Steps: int
-    HeartRateZones: List[HeartRateZone]
-    Duration: int
+    Pace: Optional[float]
+    OriginalStartTime: Optional[datetime]
+    OriginalDuration: Optional[int]
+    CaloriesManuallySpecified: Optional[bool]
+    DistanceManuallySpecified: Optional[bool]
+    StepsManuallySpecified: Optional[bool]
+    LogType: Optional[str]
+    LogId: Optional[int]
+    LastModified: Optional[datetime]
+    Steps: Optional[int]
+    HeartRateZones: Optional[List[HeartRateZone]]
+    Duration: Optional[int]
     DistanceUnit: Optional[str]
-    Distance: float
-    DateOfActivity: str
-    Calories: int
-    AverageHeartRate: int
-    ActivityTypeId: int
-    ActivityName: str
-    ActivityLevel: List[ActivityLevel]
-    ActiveDuration: int
-    ElevationGain: float
+    Distance: Optional[float]
+    DateOfActivity: Optional[str]
+    Calories: Optional[int]
+    AverageHeartRate: Optional[int]
+    ActivityTypeId: Optional[int]
+    ActivityName: Optional[str]
+    ActivityLevel: Optional[List[ActivityLevel]]
+    ActiveDuration: Optional[int]
+    ElevationGain: Optional[float]
     
     
 class ActivityLog(BaseModel):
-    Day: datetime
-    Activities: List[Activity]
+    Day: Optional[datetime]
+    Activities: Optional[List[Activity]]
     
     def load_list(list_of_dicts):
         m = parse_obj_as(List[ActivityLog], list_of_dicts)
@@ -61,28 +61,28 @@ class ActivityLog(BaseModel):
         return m
 
 class DailyActivity(BaseModel):
-    ActivityDate: datetime
-    TotalDistance: float
-    TrackerDistance: float
-    LoggedActivitiesDistance: float
-    VeryActiveDistance: float
-    ModeratelyActiveDistance: float
-    LightActiveDistance: float
-    SedentaryActiveDistance: float
-    VeryActiveMinutes: float
-    FairlyActiveMinutes: float
-    LightlyActiveMinutes: float
-    SedentaryMinutes: float
-    TotalSteps: int
-    Calories: int
-    Floors: int
-    CaloriesBMR: int
-    MarginalCalories: int
+    ActivityDate: Optional[datetime]
+    TotalDistance: Optional[float]
+    TrackerDistance: Optional[float]
+    LoggedActivitiesDistance: Optional[float]
+    VeryActiveDistance: Optional[float]
+    ModeratelyActiveDistance: Optional[float]
+    LightActiveDistance: Optional[float]
+    SedentaryActiveDistance: Optional[float]
+    VeryActiveMinutes: Optional[float]
+    FairlyActiveMinutes: Optional[float]
+    LightlyActiveMinutes: Optional[float]
+    SedentaryMinutes: Optional[float]
+    TotalSteps: Optional[int]
+    Calories: Optional[int]
+    Floors: Optional[int]
+    CaloriesBMR: Optional[int]
+    MarginalCalories: Optional[int]
     RestingHeartRate: Optional[int]
-    GoalCaloriesOut: int
-    GoalDistance: float
-    GoalFloors: int
-    GoalSteps: int
+    GoalCaloriesOut: Optional[int]
+    GoalDistance: Optional[float]
+    GoalFloors: Optional[int]
+    GoalSteps: Optional[int]
     
     def load_list(list_of_dicts):
         m = parse_obj_as(List[DailyActivity], list_of_dicts)
