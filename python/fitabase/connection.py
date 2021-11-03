@@ -1,5 +1,5 @@
 import requests
-from .models import Profile, ActivityLog
+from .models import Profile, ActivityLog, DailyActivity
 
 class HttpClient:
     def __init__(self):
@@ -17,7 +17,8 @@ class Constants:
     DICT = {
         'url': {
             'profile': 'https://api.fitabase.com/v1/Profiles/',
-            'activity_log': 'https://api.fitabase.com/v1/activitylog/Get/{}/{}/{}'
+            'activity_log': 'https://api.fitabase.com/v1/activitylog/Get/{}/{}/{}',
+            'daily_activity': 'https://api.fitabase.com/v1/DailyActivity/{}/{}/{}'
         }
     }
     
@@ -30,17 +31,25 @@ class Connection:
     
     def __authenticate(self):
         response_json = self.__client.get(Constants.DICT['url']['profile'])
-        profile_list = Profile.load_list(response_json)
-        if (len(profile_list)==1):
-            self.profile_id = profile_list[0].ProfileId
-        else:
-            raise "Profile is not a single-item list: {}".format(profile_list)
-        
+        self.profiles = Profile.load_list(response_json)
         return True
 
-    def get_activity_log(self, start:str, end:str):
-        url = Constants.DICT['url']['activity_log'].format(self.profile_id, start, end)
+    def get_activity_log(self, start:str, end:str, profile:Profile=None):
+        if profile is None:
+            return [{"profile": x, "activity_logs": self.get_activity_log(start, end, x)} for x in self.profiles]
+        
+        url = Constants.DICT['url']['activity_log'].format(profile.ProfileId, start, end)
         response_json = self.__client.get(url)
         activity_log_list = ActivityLog.load_list(response_json)
+        
+        return activity_log_list
+
+    def get_daily_activity(self, start:str, end:str, profile:Profile=None):
+        if profile is None:
+            return [{"profile": x, "daily_activity": self.get_daily_activity(start, end, x)} for x in self.profiles]
+        
+        url = Constants.DICT['url']['daily_activity'].format(profile.ProfileId, start, end)
+        response_json = self.__client.get(url)
+        activity_log_list = DailyActivity.load_list(response_json)
         
         return activity_log_list

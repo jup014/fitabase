@@ -59,3 +59,32 @@ class ActivityLog(BaseModel):
         m = parse_obj_as(List[ActivityLog], list_of_dicts)
         
         return m
+
+class DailyActivity(BaseModel):
+    ActivityDate: datetime
+    TotalDistance: float
+    TrackerDistance: float
+    LoggedActivitiesDistance: float
+    VeryActiveDistance: float
+    ModeratelyActiveDistance: float
+    LightActiveDistance: float
+    SedentaryActiveDistance: float
+    VeryActiveMinutes: float
+    FairlyActiveMinutes: float
+    LightlyActiveMinutes: float
+    SedentaryMinutes: float
+    TotalSteps: int
+    Calories: int
+    Floors: int
+    CaloriesBMR: int
+    MarginalCalories: int
+    RestingHeartRate: Optional[int]
+    GoalCaloriesOut: int
+    GoalDistance: float
+    GoalFloors: int
+    GoalSteps: int
+    
+    def load_list(list_of_dicts):
+        m = parse_obj_as(List[DailyActivity], list_of_dicts)
+        
+        return m
